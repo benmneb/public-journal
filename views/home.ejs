@@ -10,7 +10,7 @@
   <% const postBody = post.content; %>
   <h2> <%= post.title %> </h2>
   <p> <%= postBody.substring(0, 100) + '... ' %>
-    <a href='/posts/<%= post.title.replace(/\s+/g, '-').toLowerCase(); %>'>Read More</a>
+    <a href='/<%= post._id; %>'>Read More</a>
   </p>
 <% }) %>
 

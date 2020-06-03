@@ -14,7 +14,9 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(express.static("public"));
 
 //
@@ -43,7 +45,8 @@ app.get('/', (req, res) => {
     if (!err) {
       res.render('home', {
         homeStartingContent,
-        posts});
+        posts
+      });
     } else {
       console.log(err);
     }
@@ -51,11 +54,15 @@ app.get('/', (req, res) => {
 })
 
 app.get('/contact', (req, res) => {
-  res.render('contact', {contactContent});
+  res.render('contact', {
+    contactContent
+  });
 })
 
 app.get('/about', (req, res) => {
-  res.render('about', {aboutContent});
+  res.render('about', {
+    aboutContent
+  });
 })
 
 app.get('/compose', (req, res) => {
@@ -63,7 +70,7 @@ app.get('/compose', (req, res) => {
 })
 
 app.post('/compose', (req, res) => {
-  const post = new Post ({
+  const post = new Post({
     title: req.body.postTitle,
     content: req.body.postBody
   });
@@ -76,8 +83,18 @@ app.post('/compose', (req, res) => {
   }));
 })
 
+app.get('/:id', (req, res) => {
+  const requestedId = req.params.id;
+  Post.findById(requestedId, (err, post) => {
+    res.render('post', {
+      title: post.title,
+      content: post.content
+    })
+  })
+})
+
 app.get('/posts/:postName', (req, res) => {
-const postName = _.lowerCase(req.params.postName);
+  const postName = _.lowerCase(req.params.postName);
   posts.forEach((post) => {
     const requestedName = _.lowerCase(post.title);
     if (postName === requestedName) {
